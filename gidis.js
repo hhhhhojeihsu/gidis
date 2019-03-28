@@ -15,9 +15,6 @@ client.on('message', async msg => {
     // Send list using pm
     if(msg.content.substring(2) === 'list') {
       msg.author.send(helper.list());
-      // Mention sender if not using PM
-      if(msg.channel.type !== 'dm')
-      msg.reply('GI Bot has PMed you the list');
     }
     else if(msg.content.substring(2, 7) === 'list ') {
       msg.author.send(helper.list(msg.content.substring(7)));
@@ -25,7 +22,11 @@ client.on('message', async msg => {
     else {
       var parsed = helper.parseMsg(msg.content.substring(2));
       msg.reply(parsed[0], parsed[1]);
+      return;
     }
+    // Mention sender if not using PM
+    if(msg.channel.type !== 'dm')
+    msg.reply('GI Bot has PMed you the list');
 	}
 });
 

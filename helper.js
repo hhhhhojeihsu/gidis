@@ -18,7 +18,7 @@ var list = function (vid) {
   if(typeof vid === 'undefined')
     return getMetaList();
   else
-    return vid;
+    return getIndList(vid);
 }
 
 var parseMsg = function (msg) {
@@ -40,4 +40,27 @@ var getMetaList = function () {
   }
   return string;
 }
+
+var getIndList = function (vid) {
+  var string = "";
+  if(typeof giList[vid] === 'undefined') {
+    string += "Cannot find list " + vid + ". "
+            + "Please use `" + prefix + "list` to show availible lists.";
+  }
+  else {
+    string += "```\n";
+    for(var vidKey in giList[vid]) {
+      string += giList[vid][vidKey][0] + "\n";
+    }
+    string += "```\n"
+            + "You don't need to type out whole command. That is, the characters between the brackets are optional\n"
+            + "For example, if you want sticker of `巧[克力]`.\n"
+            + "`" + prefix + "巧克力` can be shorten to: " + "`" +prefix + "巧`\n"
+            + "And the following works too:\n"
+            + "`" + prefix + "巧克`\n"
+            + "`" + prefix + "巧克力`\n";
+  }
+  return string;
+}
+
 
