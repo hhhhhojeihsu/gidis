@@ -1,0 +1,22 @@
+{
+  "name": "gidis",
+  "version": "1.0.0",
+  "description": "Send GIJOE sticker to discord",
+  "keywords": [
+    "gijoe",
+    "discord",
+    "bot"
+  ],
+  "dependencies": {
+    "discord.js": ">=11.4.2",
+    "nodemon": ">=1.18.10"
+  },
+  "scripts": {
+    "start": "nodemon ./gidis.js",
+    "test": "nodemon --inspect ./gidis.js"
+  },
+  "nodemonConfig": {
+    "ignore": ["resources/*"],
+    "delay": 2
+  }
+}
