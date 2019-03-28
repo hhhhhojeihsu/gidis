@@ -5,22 +5,24 @@ const client = new Discord.Client();
 const config = require('./config.json');
 const helper = require('./helper.js');
 
+var prefix = config.GI_PREFIX;
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', async msg => {
   if(msg.author.bot) return;
-  if(msg.content.substring(0, 2) === config.GI_PREFIX){
+  if(msg.content.substring(0, prefix.length) === prefix) {
     // Send list using pm
-    if(msg.content.substring(2) === 'list') {
+    if(msg.content.substring(prefix.length) === 'list') {
       msg.author.send(helper.list());
     }
-    else if(msg.content.substring(2, 7) === 'list ') {
+    else if(msg.content.substring(prefix.length, 7) === 'list ') {
       msg.author.send(helper.list(msg.content.substring(7)));
     }
     else {
-      var parsed = helper.parseMsg(msg.content.substring(2));
+      var parsed = helper.parseMsg(msg.content.substring(prefix.length));
       msg.reply(parsed[0], parsed[1]);
       return;
     }
