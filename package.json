@@ -11,7 +11,7 @@
     "discord.js": ">=11.4.2",
     "nodemon": ">=1.18.10",
     "zlib-sync": ">=0.1.4",
-    "discordapp/erlpack": ">=0.1.0",
+    "erlpack": "discordapp/erlpack",
     "@discordjs/uws": ">=11.149.1"
   },
   "scripts": {

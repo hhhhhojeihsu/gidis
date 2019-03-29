@@ -8,6 +8,7 @@ Discord Bot That Sends GIJOE Stickers
 - Install `npm` via your package manager
 - Copy `config.json.smaple` to `config.json`
 - Fill in the token in `config.json`
+- Use system's package manager install `zlib`(development package)
 - Run `npm install` to install dependencies
 - Run `npm start` to start hosting
 - Add the bot to your channel
