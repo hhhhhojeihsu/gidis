@@ -99,8 +99,8 @@ var getIndList = function (vid) {
     }
     string += "```\n"
             + "You don't need to type out whole command. That is, the characters between the brackets are optional\n"
-            + "For example, if you want sticker of `巧[克力]`.\n"
-            + "`" + prefix + "巧克力` can be shorten to: " + "`" +prefix + "巧`\n"
+            + "For example, if you want sticker `巧[克力]`\n"
+            + "`" + prefix + "巧克力` can be shorten to " + "`" +prefix + "巧`\n"
             + "And the following works too:\n"
             + "`" + prefix + "巧克`\n"
             + "`" + prefix + "巧克力`\n";
