@@ -25,6 +25,8 @@ client.on('message', async msg => {
       var parsed = helper.parseMsg(msg.content.substring(prefix.length));
       if(parsed[0] === "")
         msg.channel.send(parsed[1]);
+      else
+        msg.channel.send(parsed[0]);
       return;
     }
     // Mention sender if not using PM

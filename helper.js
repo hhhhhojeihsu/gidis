@@ -3,8 +3,8 @@
 const giList = require('./list.json');
 const config = require('./config.json');
 
-var prefix = config.GI_PREFIX;
-var linkPrefix = 'https://raw.githubusercontent.com/hhhhhojeihsu/gidis/master/resources/stickers/';
+const prefix = config.GI_PREFIX;
+const linkPrefix = 'https://raw.githubusercontent.com/hhhhhojeihsu/gidis/master/resources/stickers/';
 
 // Extract all content to list
 var giArr = [];
@@ -49,10 +49,6 @@ var parseMsg = function (msg) {
     return false;
   });
 
-  // Empty array means no match found
-  if(possibleArr.length === 0) {
-  }
-
   // Find matched
   for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
     // Whole match
@@ -67,7 +63,9 @@ var parseMsg = function (msg) {
       return ["", {'files': [encodeURI(linkPrefix + possibleArr[idxPosAr][0] + ".png")]}];
     }
   }
-  return [possibleArr, {'files': ["https://i.imgur.com/TRq0XSz.jpg"]}];
+
+  // Ambigious command
+  return ["Cannot find the sticker you're looking for. Please DM the bot `!!list` to find the sticker you desire.", ""];
 }
 
 var getMetaList = function () {
