@@ -23,7 +23,8 @@ client.on('message', async msg => {
     }
     else {
       var parsed = helper.parseMsg(msg.content.substring(prefix.length));
-      msg.reply(parsed[0], parsed[1]);
+      if(parsed[0] === "")
+        msg.channel.send(parsed[1]);
       return;
     }
     // Mention sender if not using PM

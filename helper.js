@@ -4,6 +4,24 @@ const giList = require('./list.json');
 const config = require('./config.json');
 
 var prefix = config.GI_PREFIX;
+var linkPrefix = 'https://raw.githubusercontent.com/hhhhhojeihsu/gidis/master/resources/stickers/';
+
+// Extract all content to list
+var giArr = [];
+
+for(let vidKey in giList) {
+  for(let item in giList[vidKey]) {
+    giArr.push([
+      item,
+      giList[vidKey][item][1],
+      giList[vidKey][item][2],
+    ]);
+  }
+}
+
+giArr = giArr.sort(function (a, b) {
+  return a[0].localeCompare(b[0]);
+});
 
 module.exports = {
   list: function (vid) {
@@ -22,7 +40,36 @@ var list = function (vid) {
 }
 
 var parseMsg = function (msg) {
-  return ['Kadacha', {'files': ["https://i.imgur.com/TRq0XSz.jpg"]}]
+  // Filter based on first word
+  var prevArr = []; // Previous array used to show user the guessed name
+  var possibleArr = giArr;
+  for(let msgIdx = 0; msg.length; ++msgIdx) {
+    // Filter by each character
+    possibleArr = possibleArr.filter(function (item) {
+      if(msg[msgIdx] === item[msgIdx][0])
+        return true;
+      return false;
+    });
+
+    // Empty array means no match found
+    if(possibleArr.length === 0) {
+      if(prevArr.length === 0) {
+      }
+      else {
+      }
+    }
+
+    // Find matched
+    for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
+      // Whole match
+      if(possibleArr[idxPosAr][1] === 1 && msg === possibleArr[idxPosAr][0]) {
+        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
+      }
+    }
+    prevArr = possibleArr;
+  }
+  console.log(possibleArr);
+  return [possibleArr, {'files': ["https://i.imgur.com/TRq0XSz.jpg"]}];
 }
 
 var getMetaList = function () {
@@ -62,5 +109,4 @@ var getIndList = function (vid) {
   }
   return string;
 }
-
 
