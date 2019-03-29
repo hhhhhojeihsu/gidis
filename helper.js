@@ -41,34 +41,32 @@ var list = function (vid) {
 
 var parseMsg = function (msg) {
   // Filter based on first word
-  var prevArr = []; // Previous array used to show user the guessed name
-  var possibleArr = giArr;
-  for(let msgIdx = 0; msg.length; ++msgIdx) {
-    // Filter by each character
-    possibleArr = possibleArr.filter(function (item) {
-      if(msg[msgIdx] === item[msgIdx][0])
-        return true;
-      return false;
-    });
+  var possibleArr;
+  // Filter by each character
+  possibleArr = giArr.filter(function (item) {
+    if(msg[0] === item[0][0])
+      return true;
+    return false;
+  });
 
-    // Empty array means no match found
-    if(possibleArr.length === 0) {
-      if(prevArr.length === 0) {
-      }
-      else {
-      }
-    }
-
-    // Find matched
-    for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
-      // Whole match
-      if(possibleArr[idxPosAr][1] === 1 && msg === possibleArr[idxPosAr][0]) {
-        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
-      }
-    }
-    prevArr = possibleArr;
+  // Empty array means no match found
+  if(possibleArr.length === 0) {
   }
-  console.log(possibleArr);
+
+  // Find matched
+  for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
+    // Whole match
+    if(possibleArr[idxPosAr][1] === 1) {
+      if(msg === possibleArr[idxPosAr][0])
+        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
+      else
+        continue;
+    }
+    if((possibleArr[idxPosAr][0].substring(0 ,possibleArr[idxPosAr][2][1]))    // Partial match
+      === msg.substring(0, possibleArr[idxPosAr][2][1])){
+      return ["", {'files': [encodeURI(linkPrefix + possibleArr[idxPosAr][0] + ".png")]}];
+    }
+  }
   return [possibleArr, {'files': ["https://i.imgur.com/TRq0XSz.jpg"]}];
 }
 
