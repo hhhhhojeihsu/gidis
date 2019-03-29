@@ -4,7 +4,7 @@ const giList = require('./list.json');
 const config = require('./config.json');
 
 const prefix = config.GI_PREFIX;
-const linkPrefix = 'https://raw.githubusercontent.com/hhhhhojeihsu/gidis/master/resources/stickers/';
+const linkPrefix = './resources/stickers/';
 
 // Extract all content to list
 var giArr = [];
@@ -60,7 +60,7 @@ var parseMsg = function (msg) {
     }
     if((possibleArr[idxPosAr][0].substring(0 ,possibleArr[idxPosAr][2][1]))    // Partial match
       === msg.substring(0, possibleArr[idxPosAr][2][1])){
-      return ["", {'files': [encodeURI(linkPrefix + possibleArr[idxPosAr][0] + ".png")]}];
+      return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
     }
   }
 
