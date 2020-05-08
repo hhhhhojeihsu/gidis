@@ -8,15 +8,14 @@
     "bot"
   ],
   "dependencies": {
-    "discord.js": ">=11.4.2",
-    "nodemon": ">=1.18.10",
-    "zlib-sync": ">=0.1.4",
+    "discord.js": ">=12.2.0",
+    "zlib-sync": ">=0.1.6",
+    "bufferutil": ">=4.0.1",
     "erlpack": "discordapp/erlpack",
-    "@discordjs/uws": ">=11.149.1"
+    "utf-8-validate": ">=5.0.2"
   },
   "scripts": {
-    "start": "nodemon ./gidis.js",
-    "test": "nodemon --inspect ./gidis.js"
+    "start": "node ./gidis.js"
   },
   "nodemonConfig": {
     "ignore": ["resources/*"],
