@@ -33,10 +33,11 @@ module.exports = {
 }
 
 var list = function (vid) {
-  if(typeof vid === 'undefined')
+  if(typeof vid === 'undefined') {
     return getMetaList();
-  else
+  } else {
     return getIndList(vid);
+  }
 }
 
 var parseMsg = function (msg) {
@@ -44,22 +45,25 @@ var parseMsg = function (msg) {
   var possibleArr;
   // Filter by each character
   possibleArr = giArr.filter(function (item) {
-    if(msg[0] === item[0][0])
+    if(msg[0] === item[0][0]) {
       return true;
-    return false;
+    } else {
+      return false;
+    }
   });
 
   // Find matched
   for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
     // Whole match
     if(possibleArr[idxPosAr][1] === 1) {
-      if(msg === possibleArr[idxPosAr][0])
+      if(msg === possibleArr[idxPosAr][0]) {
         return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
-      else
+      } else {
         continue;
+      }
     }
     if((possibleArr[idxPosAr][0].substring(0 ,possibleArr[idxPosAr][2][1]))    // Partial match
-      === msg.substring(0, possibleArr[idxPosAr][2][1])){
+      === msg.substring(0, possibleArr[idxPosAr][2][1])) {
       return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
     }
   }
@@ -89,20 +93,20 @@ var getIndList = function (vid) {
   if(typeof giList[vid] === 'undefined') {
     string += "Cannot find list " + vid + ". "
             + "Please use `" + prefix + "list` to show availible lists.";
+    return string;
   }
-  else {
-    string += "```\n";
-    for(var vidKey in giList[vid]) {
-      string += giList[vid][vidKey][0] + "\n";
-    }
-    string += "```\n"
-            + "You don't need to type out whole command. That is, the characters between the brackets are optional\n"
-            + "For example, if you want sticker `巧[克力]`\n"
-            + "`" + prefix + "巧克力` can be shorten to " + "`" +prefix + "巧`\n"
-            + "And the following works too:\n"
-            + "`" + prefix + "巧克`\n"
-            + "`" + prefix + "巧克力`\n";
+
+  string += "```\n";
+  for(var vidKey in giList[vid]) {
+    string += giList[vid][vidKey][0] + "\n";
   }
+  string += "```\n"
+          + "You don't need to type out whole command. That is, the characters between the brackets are optional\n"
+          + "For example, if you want sticker `巧[克力]`\n"
+          + "`" + prefix + "巧克力` can be shorten to " + "`" +prefix + "巧`\n"
+          + "And the following works too:\n"
+          + "`" + prefix + "巧克`\n"
+          + "`" + prefix + "巧克力`\n";
   return string;
 }
 
