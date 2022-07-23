@@ -7,21 +7,19 @@ const prefix = config.GI_PREFIX;
 const linkPrefix = './resources/stickers/';
 
 // Extract all content to list
+var giChapters = giList["Chapters"];
 var giArr = [];
 
-for(let vidKey in giList) {
-  for(let item in giList[vidKey]) {
+for(let chapterIdx in giChapters) {
+  var chapter = giList[giChapters[chapterIdx]];
+  for(let itemIdx in chapter) {
     giArr.push([
-      item,
-      giList[vidKey][item][1],
-      giList[vidKey][item][2],
+      chapter[itemIdx][0],
+      chapter[itemIdx][1],
+      chapter[itemIdx][2],
     ]);
   }
 }
-
-giArr = giArr.sort(function (a, b) {
-  return a[0].localeCompare(b[0]);
-});
 
 module.exports = {
   list: function (vid) {
@@ -41,10 +39,8 @@ var list = function (vid) {
 }
 
 var parseMsg = function (msg) {
-  // Filter based on first word
-  var possibleArr;
   // Filter by each character
-  possibleArr = giArr.filter(function (item) {
+  var possibleArr = giArr.filter(function (item) {
     if(msg[0] === item[0][0]) {
       return true;
     } else {
@@ -76,13 +72,13 @@ var getMetaList = function () {
   var string = "Use `" + prefix + "list <vid>` to list supported command\n"
              + "Supported commands:\n"
              + "```\n";
-  for(var vidKey in giList) {
-    string += vidKey + '\n';
+  for(var chapterIdx in giChapters) {
+    string += giChapters[chapterIdx] + '\n';
   }
   // Access the first item in json for example
-  for(var vidKey in giList) {
+  for(var chapterIdx in giChapters) {
     string += "```\n"
-            + "For example: `" + prefix + "list " + vidKey +  "`";
+            + "For example: `" + prefix + "list " + giChapters[chapterIdx] +  "`";
     break;
   }
   return string;
@@ -98,7 +94,17 @@ var getIndList = function (vid) {
 
   string += "```\n";
   for(var vidKey in giList[vid]) {
-    string += giList[vid][vidKey][0] + "\n";
+    if(giList[vid][vidKey][1]) {
+      string += giList[vid][vidKey][0] + "\n";
+    } else {
+      var optional_str =
+        giList[vid][vidKey][0].substring(0, giList[vid][vidKey][2][1]) +
+        "[" +
+        giList[vid][vidKey][0].substring(giList[vid][vidKey][2][1]) +
+        "]"
+
+      string += optional_str + "\n";
+    }
   }
   string += "```\n"
           + "You don't need to type out whole command. That is, the characters between the brackets are optional\n"
