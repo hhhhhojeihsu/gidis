@@ -17,6 +17,7 @@ for(let chapterIdx in giChapters) {
       chapter[itemIdx][0],
       chapter[itemIdx][1],
       chapter[itemIdx][2],
+      giChapters[chapterIdx]
     ]);
   }
 }
@@ -53,14 +54,14 @@ var parseMsg = function (msg) {
     // Whole match
     if(possibleArr[idxPosAr][1] === 1) {
       if(msg === possibleArr[idxPosAr][0]) {
-        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
+        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][3] + "/" + possibleArr[idxPosAr][0] + ".png"]}];
       } else {
         continue;
       }
     }
     if((possibleArr[idxPosAr][0].substring(0 ,possibleArr[idxPosAr][2][1]))    // Partial match
       === msg.substring(0, possibleArr[idxPosAr][2][1])) {
-      return ["", {'files': [linkPrefix + possibleArr[idxPosAr][0] + ".png"]}];
+      return ["", {'files': [linkPrefix + possibleArr[idxPosAr][3] + "/" + possibleArr[idxPosAr][0] + ".png"]}];
     }
   }
 
