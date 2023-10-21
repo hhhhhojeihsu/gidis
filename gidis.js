@@ -1,7 +1,15 @@
 'use strict';
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { Client, GatewayIntentBits } = require('discord.js');
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages
+  ]
+});
+
 const config = require('./config.json');
 const helper = require('./helper.js');
 
@@ -11,7 +19,7 @@ client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', async msg => {
+client.on('messageCreate', async msg => {
   if(msg.author.bot) {
     return;
   }

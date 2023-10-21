@@ -8,11 +8,11 @@
     "bot"
   ],
   "dependencies": {
-    "discord.js": "^12.2.0",
-    "zlib-sync": "^0.1.6",
-    "bufferutil": "^4.0.1",
+    "discord.js": "^14.3.0",
+    "zlib-sync": "^0.1.8",
+    "bufferutil": "^4.0.8",
     "erlpack": "discordapp/erlpack",
-    "utf-8-validate": "^5.0.2"
+    "utf-8-validate": "^6.0.3"
   },
   "scripts": {
     "start": "node ./gidis.js"
