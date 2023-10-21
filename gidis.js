@@ -1,6 +1,6 @@
 'use strict';
 
-const { Client, GatewayIntentBits } = require('discord.js');
+const { ActivityType, Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -17,6 +17,7 @@ var prefix = config.GI_PREFIX;
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity('!!list for list', { type: ActivityType.Watching });
 });
 
 client.on('messageCreate', async msg => {
