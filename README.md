@@ -13,6 +13,7 @@ Use this [link]( https://discord.com/oauth2/authorize?client_id=5603645841756651
 - Fill in the token in `config.json`
 - Use system's package manager install `zlib`(development package)
 - Run `npm install` to install dependencies
+- Run `npm run register` ONCE to register bot commands
 - Run `npm start` to start hosting
 - Add the bot to your channel
 - Have fun
