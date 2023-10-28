@@ -39,11 +39,16 @@ module.exports = {
   },
   getStickerPath: function (sticker_name) {
     return getStickerPath(sticker_name);
+  },
+  getChapters: function (include_meta) {
+    return getChapters(include_meta)
   }
 }
 
 var list = function (vid) {
-  if(typeof vid === 'undefined') {
+  if(typeof vid === 'undefined' ||
+     vid == null ||
+     vid.length === 0) {
     return getMetaList();
   } else {
     return getIndList(vid);
@@ -157,4 +162,16 @@ var getStickerPath = function (sticker_name) {
   } else {
     return "";
   }
+}
+
+var getChapters = function (include_meta) {
+  var giChapters = giList["Chapters"];
+  var arr = []
+  if (include_meta) {
+    arr.push({'name': 'meta', 'value': 'meta'});
+  }
+  for (let chapterIdx in giChapters) {
+    arr.push({'name': giChapters[chapterIdx], 'value': giChapters[chapterIdx]});
+  }
+  return arr;
 }
