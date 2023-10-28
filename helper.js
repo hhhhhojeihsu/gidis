@@ -2,9 +2,12 @@
 
 const giList = require('./list.json');
 const config = require('./config.json');
+const Fuse = require('fuse.js')
 
 const prefix = config.GI_PREFIX;
 const linkPrefix = './resources/stickers/';
+
+const ambigious = "Cannot find the sticker you're looking for. Please DM the bot `!!list` to find the sticker you desire.";
 
 // Extract all content to list
 var giChapters = giList["Chapters"];
@@ -13,21 +16,29 @@ var giArr = [];
 for(let chapterIdx in giChapters) {
   var chapter = giList[giChapters[chapterIdx]];
   for(let itemIdx in chapter) {
-    giArr.push([
-      chapter[itemIdx][0],
-      chapter[itemIdx][1],
-      chapter[itemIdx][2],
-      giChapters[chapterIdx]
-    ]);
+    giArr.push(
+      {
+        'name': chapter[itemIdx][0],
+        'fuzzy': chapter[itemIdx][1],
+        'required_range': chapter[itemIdx][1],
+        'chapter': giChapters[chapterIdx]
+      });
   }
 }
 
 module.exports = {
+  ambigious: ambigious,
   list: function (vid) {
     return list(vid);
   },
   parseMsg: function (msg) {
     return parseMsg(msg);
+  },
+  fuzzyResult: function (input) {
+    return fuzzyResult(input);
+  },
+  getStickerPath: function (sticker_name) {
+    return getStickerPath(sticker_name);
   }
 }
 
@@ -42,7 +53,7 @@ var list = function (vid) {
 var parseMsg = function (msg) {
   // Filter by each character
   var possibleArr = giArr.filter(function (item) {
-    if(msg[0] === item[0][0]) {
+    if(msg[0] === item['name'][0]) {
       return true;
     } else {
       return false;
@@ -51,22 +62,22 @@ var parseMsg = function (msg) {
 
   // Find matched
   for(let idxPosAr = 0; idxPosAr < possibleArr.length; ++idxPosAr) {
+    var item = possibleArr[idxPosAr];
     // Whole match
-    if(possibleArr[idxPosAr][1] === 1) {
-      if(msg === possibleArr[idxPosAr][0]) {
-        return ["", {'files': [linkPrefix + possibleArr[idxPosAr][3] + "/" + possibleArr[idxPosAr][0] + ".png"]}];
+    if(item['fuzzy'] === 1) {
+      if(msg === item['name']) {
+        return {'files': [linkPrefix + item['chapter'] + "/" + item['name'] + ".png"]};
       } else {
         continue;
       }
     }
-    if((possibleArr[idxPosAr][0].substring(0 ,possibleArr[idxPosAr][2][1]))    // Partial match
-      === msg.substring(0, possibleArr[idxPosAr][2][1])) {
-      return ["", {'files': [linkPrefix + possibleArr[idxPosAr][3] + "/" + possibleArr[idxPosAr][0] + ".png"]}];
+    if((item['name'].substring(item['required_range'][0] ,item['required_range'][1]))    // Partial match
+      === msg.substring(item['required_range'][0], item['required_range'][1])) {
+      return {'files': [linkPrefix + item['chapter'] + "/" + item['name'] + ".png"]};
     }
   }
 
-  // Ambigious command
-  return ["Cannot find the sticker you're looking for. Please DM the bot `!!list` to find the sticker you desire.", ""];
+  return ambigious;
 }
 
 var getMetaList = function () {
@@ -117,3 +128,33 @@ var getIndList = function (vid) {
   return string;
 }
 
+var fuzzyResult = function (input) {
+  const fuse = new Fuse(giArr, {
+    keys: ['name']
+  });
+  const fuzzy_result = fuse.search(input, {limit: 10});
+
+  var result = [];
+  for(let item_idx in fuzzy_result) {
+    var chapter = fuzzy_result[item_idx]['item']['chapter'];
+    var value = fuzzy_result[item_idx]['item']['name'];
+    result.push({'name': chapter + '/' + value, 'value': value});
+  }
+  return result;
+}
+
+var getStickerPath = function (sticker_name) {
+  var possibleArr = giArr.filter(function (item) {
+    if(sticker_name === item['name']) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  if (possibleArr.length == 1) {
+    return {'files': [linkPrefix + possibleArr[0]['chapter'] + "/" + possibleArr[0]['name'] + ".png"]};
+  } else {
+    return "";
+  }
+}

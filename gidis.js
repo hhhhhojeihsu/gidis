@@ -61,12 +61,8 @@ client.on('messageCreate', async msg => {
   } else if(content.substring(prefix.length, 7) === 'list ') {
     msg.author.send(helper.list(msg.content.substring(7)));
   } else {
-    var parsed = helper.parseMsg(content.substring(prefix.length));
-    if(parsed[0] === "") {
-      msg.channel.send(parsed[1]);
-    } else {
-      msg.channel.send(parsed[0]);
-    }
+    var reply = helper.parseMsg(content.substring(prefix.length));
+    msg.channel.send(reply);
     return;
   }
 
