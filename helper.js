@@ -20,7 +20,7 @@ for(let chapterIdx in giChapters) {
       {
         'name': chapter[itemIdx][0],
         'fuzzy': chapter[itemIdx][1],
-        'required_range': chapter[itemIdx][1],
+        'required_range': chapter[itemIdx][2],
         'chapter': giChapters[chapterIdx]
       });
   }
