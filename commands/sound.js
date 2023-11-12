@@ -4,6 +4,7 @@ const { ChannelType, SlashCommandBuilder } = require('discord.js');
 const {
 	createAudioPlayer,
 	joinVoiceChannel,
+	getVoiceConnection,
 	entersState,
 	StreamType,
 	AudioPlayerStatus,
@@ -71,6 +72,7 @@ module.exports = {
 		try {
 			const connection = await connect_to_channel(interaction, voice_channel.id);
 			connection.subscribe(player);
+			player.guild_id = interaction.guildId;
 			await interaction.reply({content: "Playing Now", ephemeral: true});
 		} catch(error) {
 			console.log(error);
@@ -83,3 +85,17 @@ module.exports = {
 		await interaction.respond(fuzzy_result);
 	}
 };
+
+player.on(AudioPlayerStatus.Idle, () => {
+	setTimeout(() => {
+		console.log(player.guild_id);
+		if (player.guild_id) {
+			console.log("Has Property");
+			const connection = getVoiceConnection(player.guild_id);
+			if (connection) {
+				console.log("Valid colnnection");
+				connection.disconnect();
+			}
+		}
+	}, 15e3);
+});
