@@ -15,6 +15,9 @@ Use this [link]( https://discord.com/oauth2/authorize?client_id=5603645841756651
   - `/list <chapter name>` to show chapter list
   - `/sound string:<stickername> channel:<voice channel>` to send sound to voice channel
 
+## Docker Image
+- Available on [Docker Hub](https://hub.docker.com/r/hhhhojeihsu/gidis)
+
 ## Installation
 
 - Clone this repo with `git clone https://github.com/hhhhhojeihsu/gidis.git`
