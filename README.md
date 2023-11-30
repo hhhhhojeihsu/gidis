@@ -11,8 +11,9 @@ Use this [link]( https://discord.com/oauth2/authorize?client_id=5603645841756651
   - Type `!!list <chapter name>` to send list of chapter to DM
   - Type `!!<sticker name>` to send sticker to channel
 - Slash command
-  - `/fuzzy <stickername>` to show
+  - `/fuzzy string:<stickername>` to show
   - `/list <chapter name>` to show chapter list
+  - `/sound string:<stickername> channel:<voice channel>` to send sound to voice channel
 
 ## Installation
 

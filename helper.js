@@ -6,6 +6,7 @@ const Fuse = require('fuse.js')
 
 const prefix = config.GI_PREFIX;
 const linkPrefix = './resources/stickers/';
+const soundPrefix = './resources/audio/';
 
 const ambigious = "Cannot find the sticker you're looking for. Please DM the bot `!!list` to find the sticker you desire.";
 
@@ -41,7 +42,10 @@ module.exports = {
     return getStickerPath(sticker_name);
   },
   getChapters: function (include_meta) {
-    return getChapters(include_meta)
+    return getChapters(include_meta);
+  },
+  getSoundPath: function(sticker_name) {
+    return getSoundPath(sticker_name);
   }
 }
 
@@ -174,4 +178,20 @@ var getChapters = function (include_meta) {
     arr.push({'name': giChapters[chapterIdx], 'value': giChapters[chapterIdx]});
   }
   return arr;
+}
+
+var getSoundPath = function (sticker_name) {
+  var possibleArr = giArr.filter(function (item) {
+    if(sticker_name === item['name']) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  if (possibleArr.length == 1) {
+    return soundPrefix + possibleArr[0]['chapter'] + "/" + possibleArr[0]['name'] + ".ogg";
+  } else {
+    return "";
+  }
 }

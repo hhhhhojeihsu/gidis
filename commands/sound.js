@@ -64,11 +64,19 @@ module.exports = {
 	async execute(interaction) {
 		const voice_channel = interaction.options.getChannel('channel');
 
+		const target_string = interaction.options.getString("string");
+
+		var sound_path = helper.getSoundPath(target_string);
+		if (sound_path.length === 0) {
+			return interaction.reply({content: helper.ambigious, ephemeral: true});
+		}
+
 		try{
-			await play_file('./sample.ogg');
+			await play_file(sound_path);
 		} catch (error) {
 			console.log(error);
 		}
+
 		try {
 			const connection = await connect_to_channel(interaction, voice_channel.id);
 			connection.subscribe(player);
@@ -90,10 +98,8 @@ player.on(AudioPlayerStatus.Idle, () => {
 	setTimeout(() => {
 		console.log(player.guild_id);
 		if (player.guild_id) {
-			console.log("Has Property");
 			const connection = getVoiceConnection(player.guild_id);
 			if (connection) {
-				console.log("Valid colnnection");
 				connection.disconnect();
 			}
 		}
