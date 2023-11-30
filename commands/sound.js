@@ -81,6 +81,9 @@ module.exports = {
 			const connection = await connect_to_channel(interaction, voice_channel.id);
 			connection.subscribe(player);
 			player.guild_id = interaction.guildId;
+			if (player.idle_timeout) {
+				clearTimeout(player.idle_timeout);
+			}
 			await interaction.reply({content: "Playing Now", ephemeral: true});
 		} catch(error) {
 			console.log(error);
@@ -95,13 +98,12 @@ module.exports = {
 };
 
 player.on(AudioPlayerStatus.Idle, () => {
-	setTimeout(() => {
-		console.log(player.guild_id);
+	player.idle_timeout = setTimeout(() => {
 		if (player.guild_id) {
 			const connection = getVoiceConnection(player.guild_id);
 			if (connection) {
 				connection.disconnect();
 			}
 		}
-	}, 15e3);
+	}, 120e3);
 });
